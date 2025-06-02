@@ -20,4 +20,11 @@ def affichage():
         ligne = ''
 
 def init_aleatoire():
-    return
+    for i in range(len(T)):
+        for k in range(len(T)):
+            if randint(0,100) == 1:
+                T[i][k] = vivant
+                print(T[i])
+
+init_aleatoire()
+affichage()
