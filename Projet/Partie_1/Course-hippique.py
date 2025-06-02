@@ -27,10 +27,10 @@ lyst_colors=[CL_WHITE, CL_RED, CL_GREEN, CL_BROWN , CL_BLUE, CL_MAGENTA, CL_CYAN
 
 # Le dessin du cheval, 6 lignes, simple et ascii:
 cheval_dessin = [
-    "_______\\/",                          # Ligne 1 du cheval
-    "/- - - -_.\\",                       # Ligne 2
-    "/|_____/   ",                        # Ligne 3
-    "  /\\   /\\  ",                       # Ligne 4
+    "  __//*>",                          # Ligne 1 du cheval
+    "//___/",                       # Ligne 2
+    " /> />",                        # Ligne 3
+    "   ",                       # Ligne 4
     "           ",                        # Ligne 5 (vide)
     "           "                         # Ligne 6 (vide)
 ]
@@ -60,7 +60,7 @@ def detourner_signal(signum, frame):
     sys.exit(0)                           # Quitte proprement le programme
 
 def un_cheval(idx, keep_running, positions, lock):
-    LONGUEUR_COURSE = 50                  # Longueur totale de la course
+    LONGUEUR_COURSE = 100                # Longueur totale de la course
     col = 1                               # Position de départ du cheval
     nb_lignes_cheval = len(cheval_dessin) # Nombre de lignes du dessin
 
@@ -71,16 +71,18 @@ def un_cheval(idx, keep_running, positions, lock):
                 erase_line()                                # Effacer le dessin précédent
 
             for i, ligne in enumerate(cheval_dessin):
-                move_to(idx * nb_lignes_cheval + 1 + i, col)    # Aller à la nouvelle position
+                move_to(idx * nb_lignes_cheval +2 + i, col)    # Aller à la nouvelle position
                 en_couleur(lyst_colors[idx % len(lyst_colors)]) # Choix couleur du cheval
                 print(ligne, end='')                            # Affichage du dessin
             print(NORMAL, end='')                               # Réinitialiser la couleur
             sys.stdout.flush()                                  # Forcer l'affichage
 
         positions[idx] = col               # Mise à jour de la position du cheval
-        col += 1                           # Le cheval avance
-        time.sleep(0.05 * random.randint(1,5))  # Pause aléatoire (vitesse variable)
-
+        col += 1                      # Le cheval avance
+        if chr(idx+65)+'*' == pari:
+            time.sleep(0.5 * random.randint(1,5)/col)  # Pause aléatoire (vitesse variable)
+        else:
+            time.sleep(0.03 * random.randint(1,5))  # Pause aléatoire (vitesse variable)
     keep_running.value = False            # Arrêt de la course dès qu’un cheval termine
 
 def arbitre(positions, keep_running, lock, nb_chevaux, pari):
@@ -95,26 +97,15 @@ def arbitre(positions, keep_running, lock, nb_chevaux, pari):
             last = [chr(ord('A')+i) for i, p in enumerate(pos_list) if p == min_pos]     # Chevaux derniers
 
             base_line = nb_chevaux * nb_lignes_cheval + 2          # Ligne d'affichage de l'arbitre
-            move_to(base_line, 1)
+            move_to(base_line, 0)
             erase_line()
             en_couleur(CL_YELLOW)
             print(f"Cheval en tête : {' '.join(leaders)}", end='') # Affiche les leaders
 
-            move_to(base_line+1, 1)
+            move_to(base_line+1, 0)
             erase_line()
             print(f"Cheval dernier : {' '.join(last)}", end='')    # Affiche les derniers
-
-            move_to(base_line+2, 1)
-            erase_line()
-            if pari and pari in leaders:
-                print(f"Bravo ! Votre pari {pari} est en tête.", end='') # Pari gagnant en cours
-            elif pari:
-                print(f"Votre pari {pari} n'est pas en tête.", end='')   # Pari non gagnant
-            else:
-                print("Aucun pari.", end='')                              # Aucun pari choisi
-            print(NORMAL, end='')                                         # Réinitialise couleur
-            sys.stdout.flush()                                            # Rafraîchit affichage
-
+            sys.stdout.flush()
         time.sleep(0.2)                        # Petite pause avant la prochaine vérification
 
     with lock:                                # Affichage final après la course
@@ -122,12 +113,22 @@ def arbitre(positions, keep_running, lock, nb_chevaux, pari):
         max_pos = max(pos_list)
         winners = [chr(ord('A')+i) for i, p in enumerate(pos_list) if p == max_pos]  # Liste des vainqueurs
         base_line = nb_chevaux * nb_lignes_cheval + 4
-        effacer_ecran()
         move_to(base_line, 1)
         erase_line()
         en_couleur(CL_LIGHTGREEN)
         print(winners , 'a gagné')    # Affiche les gagnants
         move_to(base_line+1, 1)
+        erase_line()
+        if '*' in pari:
+            pari = pari[0] 
+        if pari in winners:
+            print(f"Bravo ! Votre pari {pari} est en tête.") # Pari gagnant en cours
+        elif pari:
+            print(f"Votre pari {pari} n'est pas en tête.")   # Pari non gagnant
+        else:
+            print("Aucun pari.")                              # Aucun pari choisi
+        
+        move_to(base_line+2, 1)
         erase_line()
         print("Fini ...")                            # Fin de course
         print(NORMAL, end='')
