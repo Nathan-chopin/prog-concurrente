@@ -1,0 +1,18 @@
+On teste dans le terminal :
+wc fichier.txt
+wc -l fichier.txt   # Nombre de lignes
+wc -w fichier.txt   # Nombre de mots
+wc -c fichier.txt   # Nombre d’octets
+
+sort fichier.txt                 # Tri alphabétique croissant
+sort -r fichier.txt              # Tri décroissant
+sort -n fichier.txt              # Tri numérique
+sort -k 2 fichier.txt            # Tri selon la 2e colonne
+
+tail fichier.txt                # Dernières 10 lignes par défaut
+tail -n 5 fichier.txt           # Dernières 5 lignes
+tail -f fichier.txt             # Suivi en temps réel (pas compris)
+
+sort < exemple.txt > exemple_trie.txt # lit l’entrée dans exemple.txt et redirige la sortie vers exemple_trie.txt
+
+sort exemple.txt | grep fichier | wc -l # trie les lignes puis filtre les lignes contenant "fichuer" puis compte combien de lignes ont "fichier"
