@@ -48,6 +48,7 @@ affichage()
 # ◦ Toute cellule morte ayant exactement trois voisines vivantes devient une cellule vivante, comme par reproduction.
 # ◦ Le schéma initial constitue la graine du système. • La première génération est créée en appliquant simultanément les règles ci-dessus à chaque cellule de la graine : 
 #       les naissances et les morts se produisent simultanément, et le moment précis où cela se produit est parfois appelé un tic (autrement dit, chaque génération est une pure fonction de la précédente).
+
 # • Les règles continuent d'être appliquées de manière répétée pour créer d'autres générations.
 
 
