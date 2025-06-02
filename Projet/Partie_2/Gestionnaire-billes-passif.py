@@ -1,6 +1,6 @@
 from multiprocessing import Process, Lock, Condition, Value
 import time
-
+  
 def demander(k, nbr_disponible_billes, lock, condition):
     with lock:
         # Tant que le nombre de billes dispo est insuffisant
