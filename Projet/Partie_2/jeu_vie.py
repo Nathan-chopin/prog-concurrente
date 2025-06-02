@@ -30,6 +30,7 @@ def affichage():
         ligne = ''
 
 def init_aleatoire():
+    global nb_vivant
     for i in range(len(T)):
         for k in range(len(T)):
             if rd.randint(1,8) == 2:
@@ -68,8 +69,14 @@ def vie_ou_mort(N):
     elif  (x-1 < 0 or x+1 > 14) or (y-1 < 0 or y+1 > 14):
         voisin_mort += 3
 
-    for i in range(1,):
-        voisin_mort += (T[x-1][y] == mort)
+    for i in range(0,2):
+        for k in range(0,2):
+            if not i == k == 0:
+                voisin_mort += (T[x+(i-1)][y+(k-1)] == mort)
+    
+    voisin_vivant = 8 - voisin_mort
+    if voisin_vivant < 2 or voisin_vivant > 3:
+        T[x][y] = mort
 
 
 
