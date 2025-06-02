@@ -1,7 +1,7 @@
-# Nathan CHOPIN
+# Nathan CHOPIN et le grand et beau Maël PIERRON
 # main du jeu de la vie
 # 2/06/25
-# TODO : tout
+# TODO : faire le jeu de la vie
 
 from random import randint
 
@@ -24,7 +24,6 @@ def init_aleatoire():
         for k in range(len(T)):
             if randint(0,100) == 1:
                 T[i][k] = vivant
-                print(T[i])
 
 init_aleatoire()
 affichage()
