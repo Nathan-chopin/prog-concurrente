@@ -22,7 +22,7 @@ def affichage():
 def init_aleatoire():
     for i in range(len(T)):
         for k in range(len(T)):
-            if randint(0,100) == 1:
+            if randint(0,50) == 1:
                 T[i][k] = vivant
 
 init_aleatoire()
