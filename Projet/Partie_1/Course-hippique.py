@@ -81,6 +81,8 @@ def un_cheval(idx, keep_running, positions, lock):
         col += 1                      # Le cheval avance
         if chr(idx+65)+'*' == pari:
             time.sleep(0.5 * random.randint(1,5)/col)  # Pause aléatoire (vitesse variable)
+        elif chr(idx+65) == pari:
+            time.sleep(0.1 * random.randint(1,5))
         else:
             time.sleep(0.03 * random.randint(1,5))  # Pause aléatoire (vitesse variable)
     keep_running.value = False            # Arrêt de la course dès qu’un cheval termine
@@ -116,7 +118,7 @@ def arbitre(positions, keep_running, lock, nb_chevaux, pari):
         move_to(base_line, 1)
         erase_line()
         en_couleur(CL_LIGHTGREEN)
-        print(winners , 'a gagné')    # Affiche les gagnants
+        print(f"{winners} a gagné")    # Affiche les gagnants
         move_to(base_line+1, 1)
         erase_line()
         if '*' in pari:
