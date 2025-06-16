@@ -15,7 +15,7 @@ def tache2(sem):
     print("T2 terminée")
 
 
-sem = Semaphore(0)
+sem = Semaphore(2)
 
 p1 = Process(target=tache1, args=(sem,))
 p2 = Process(target=tache2, args=(sem,))
