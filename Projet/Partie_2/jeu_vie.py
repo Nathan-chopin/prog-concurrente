@@ -32,12 +32,17 @@ def affichage():
 def init_aleatoire():
     for i in range(len(T)):
         for k in range(len(T)):
-            if randint(0,15) == 1:
+            if randint(0,10) == 1:
                 T[i][k] = vivant
 
 def vie_mort():
+    return
 
 if __name__ == '__main__' :
+    
+    init_aleatoire()
+    affichage()
+    
     mes_process = []                          # Liste des processus chevaux
     for i in range(N**2):
         p = mp.Process(target=vie_mort, args=())  # Crée le processus cheval
@@ -47,7 +52,4 @@ if __name__ == '__main__' :
     
     for p in mes_process:
         p.join()
-    
-    
-init_aleatoire()
-affichage()
+
