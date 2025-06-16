@@ -56,6 +56,11 @@ def vie_mort(lock,x,y,etat):
     if etat == mort and nb_vivant == 3:
         with lock:
             T[x][y] = vivant
+    
+    if etat == vivant and (nb_vivant < 2 or nb_vivant > 3):
+        with lock:
+            T[x][y] = mort
+
         
 
 if __name__ == '__main__' :
