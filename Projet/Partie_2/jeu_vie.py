@@ -59,7 +59,7 @@ def crea_proc():
         p.join()
 
 if __name__ == '__main__' :
-
+    lock = mp.Lock
     init_aleatoire()
     affichage()
     
