@@ -4,7 +4,6 @@
 from multiprocessing import Process, Queue
 from random import randint
 from time import sleep
-import os
 import sys
 
 def effacer_ecran():
