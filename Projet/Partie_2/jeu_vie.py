@@ -41,8 +41,8 @@ def vie_mort(lock,x,y,etat):
     bord_y0  = y == 0
     bord_y14 = y == len(T)
 
-    nb_mort =  3 * bord_x0  + (3 * bord_y0 - int(bord_y0 and bord_x0 )) + (3 * bord_y14 - int(bord_y14 and bord_x0 ))
-    nb_mort += 3 * bord_x14 + (3 * bord_y0 - int(bord_y0 and bord_x14)) + (3 * bord_y14 - int(bord_y14 and bord_x14))
+    nb_mort =  3 * int(bord_x0)  + (3 * int(bord_y0) - int(bord_y0 and bord_x0 )) + (3 * int(bord_y14) - int(bord_y14 and bord_x0 ))
+    nb_mort += 3 * int(bord_x14) + (3 * int(bord_y0) - int(bord_y0 and bord_x14)) + (3 * int(bord_y14) - int(bord_y14 and bord_x14))
     
     for i in [int(not bord_y0),-1 * int(not bord_y14)]:
         if i != 0:
@@ -68,10 +68,10 @@ if __name__ == '__main__' :
     init_aleatoire()
     affichage()
     
-    mes_process = []                          # Liste des processus chevaux
+    mes_process = []                          # Liste des processus
     for x in range(N):
         for y in range(N):
-            p = mp.Process(target=vie_mort, args=(lock,x,y,T[x][y]))  # Crée le processus cheval
+            p = mp.Process(target=vie_mort, args=(lock,x,y,T[x][y]))  # Crée le processus
             p.start()                             # Lance le processus
             mes_process.append(p)
     
