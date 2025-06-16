@@ -5,6 +5,7 @@
 
 import multiprocessing as mp
 from random import randint
+import time
 
 vivant = '◼️'
 mort ='◻️'
@@ -47,17 +48,21 @@ def vie_mort(x,y,etat):
     if etat == mort:
         return
 
-if __name__ == '__main__' :
-
-    init_aleatoire()
-    affichage()
-    
+def crea_proc():
     mes_process = []                          # Liste des processus chevaux
     for x in range(N):
         for y in range(N):
             p = mp.Process(target=vie_mort, args=(x,y,T[x][y]))  # Crée le processus cheval
             p.start()                             # Lance le processus
             mes_process.append(p)
-    
     for p in mes_process:
         p.join()
+        
+if __name__ == '__main__' :
+
+    init_aleatoire()
+    affichage()
+    
+    while True:
+        time.sleep(1)
+        crea_proc()
