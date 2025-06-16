@@ -5,6 +5,7 @@
 
 import multiprocessing as mp
 from random import randint
+import keyboard as kb
 
 vivant = '◼️'
 mort ='◻️'
@@ -38,8 +39,12 @@ def init_aleatoire():
 def vie_mort():
     return
 
+def action_clavier(event):
+    if event.name == 'b':
+        print('caca')
+
 if __name__ == '__main__' :
-    
+
     init_aleatoire()
     affichage()
     
@@ -49,7 +54,8 @@ if __name__ == '__main__' :
         p.start()                             # Lance le processus
         mes_process.append(p)
 
+    kb.on_press(action_clavier)
     
     for p in mes_process:
         p.join()
-
+    kb.unhook_all()
