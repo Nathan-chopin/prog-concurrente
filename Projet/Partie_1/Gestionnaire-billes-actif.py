@@ -7,21 +7,20 @@ def demander_attente_active(k, nbr_disponible_billes, lock):
         if nbr_disponible_billes.value >= k:
             nbr_disponible_billes.value -= k
             lock.release()
-            break  # On a pris les billes, on sort de la boucle
+            break
         lock.release()
-        time.sleep(0.5)  # Pause pour ne pas saturer l'ordi, attente active
+        time.sleep(0.5)
 
 def rendre_attente_active(k, nbr_disponible_billes, lock):
     with lock:
         nbr_disponible_billes.value += k
-        # Pas de notification ici, car pas d'attente passive
 
 def travailleur(id, k, m, nbr_disponible_billes, lock):
     for i in range(m):
         print(f"Travailleur {id} demande {k} billes (cycle {i+1}/{m})")
         demander_attente_active(k, nbr_disponible_billes, lock)
         print(f"Travailleur {id} a obtenu {k} billes")
-        time.sleep(k)  # Simule l'utilisation des billes
+        time.sleep(k)
         rendre_attente_active(k, nbr_disponible_billes, lock)
         print(f"Travailleur {id} a rendu {k} billes")
 
@@ -35,11 +34,11 @@ def controleur(nbr_disponible_billes, nb_max_billes, lock):
 
 def main():
     nb_max_billes = 9
-    k_demande = [4, 3, 5, 2]  # demande par chaque travailleur
-    m = 3  # nombre de cycles pour chaque travailleur
+    k_demande = [4, 3, 5, 2]
+    m = 3
 
     lock = Lock()
-    nbr_disponible_billes = Value('i', nb_max_billes)  # variable partagée
+    nbr_disponible_billes = Value('i', nb_max_billes)
 
     travailleurs = []
     for i, k in enumerate(k_demande):
