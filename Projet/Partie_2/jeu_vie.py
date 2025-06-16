@@ -32,11 +32,20 @@ def affichage():
 def init_aleatoire():
     for i in range(len(T)):
         for k in range(len(T)):
-            if randint(0,10) == 1:
+            if randint(0,8) == 1:
                 T[i][k] = vivant
 
-def vie_mort():
-    return
+def vie_mort(x,y,etat):
+    bord_x0  = x == 0
+    bord_x14 = x == len(T)
+    bord_y0  = y == 0
+    bord_y14 = y == len(T)
+
+    nb_mort =  3 * bord_x0  + (3 * bord_y0 - int(bord_y0 and bord_x0 )) + (3 * bord_y14 - int(bord_y14 and bord_x0 ))
+    nb_mort += 3 * bord_x14 + (3 * bord_y0 - int(bord_y0 and bord_x14)) + (3 * bord_y14 - int(bord_y14 and bord_x14))
+
+    if etat == mort:
+        return
 
 if __name__ == '__main__' :
     
@@ -44,10 +53,11 @@ if __name__ == '__main__' :
     affichage()
     
     mes_process = []                          # Liste des processus chevaux
-    for i in range(N**2):
-        p = mp.Process(target=vie_mort, args=())  # Crée le processus cheval
-        p.start()                             # Lance le processus
-        mes_process.append(p)
+    for x in range(N):
+        for y in range(N):
+            p = mp.Process(target=vie_mort, args=(x,y,T[x][y]))  # Crée le processus cheval
+            p.start()                             # Lance le processus
+            mes_process.append(p)
 
     
     for p in mes_process:
