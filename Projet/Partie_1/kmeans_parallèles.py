@@ -1,3 +1,6 @@
+# Nathan CHOPIN et Maël PIERRON
+# 16/06/25
+# TODO : Done
 import numpy as np  # On importe numpy pour gérer les tableaux et calculs numériques
 import matplotlib.pyplot as plt  # Pour afficher les résultats graphiquement
 from multiprocessing import Pool, set_start_method  # Pour faire du parallélisme avec plusieurs processus

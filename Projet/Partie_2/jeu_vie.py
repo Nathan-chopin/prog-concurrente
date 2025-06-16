@@ -1,11 +1,10 @@
-# Nathan CHOPIN et le grand et beau Maël PIERRON
+# Nathan CHOPIN et Maël PIERRON
 # main du jeu de la vie
-# 2/06/25
+# 16/06/25
 # TODO : faire le jeu de la vie
 
 import multiprocessing as mp
 from random import randint
-import keyboard as kb
 
 vivant = '◼️'
 mort ='◻️'
@@ -59,10 +58,6 @@ def vie_mort(lock,x,y,etat):
             T[x][y] = vivant
         
 
-def action_clavier(event):
-    if event.name == 'b':
-        print('caca')
-
 if __name__ == '__main__' :
     lock = mp.Lock()
     init_aleatoire()
@@ -74,9 +69,6 @@ if __name__ == '__main__' :
             p = mp.Process(target=vie_mort, args=(lock,x,y,T[x][y]))  # Crée le processus cheval
             p.start()                             # Lance le processus
             mes_process.append(p)
-
-    kb.on_press(action_clavier)
     
     for p in mes_process:
         p.join()
-    kb.unhook_all()

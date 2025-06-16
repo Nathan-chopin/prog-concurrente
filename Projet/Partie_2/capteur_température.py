@@ -1,3 +1,6 @@
+# Nathan CHOPIN et Maël PIERRON
+# 16/06/25
+# TODO : Done
 from multiprocessing import Process, Queue
 from random import randint
 from time import sleep

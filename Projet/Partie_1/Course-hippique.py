@@ -1,3 +1,6 @@
+# Nathan CHOPIN et Maël PIERRON
+# 16/06/25
+# TODO : Done
 import multiprocessing as mp                # Import du module multiprocessing pour la création de processus
 import ctypes                               # Import pour les types C (utile pour les tableaux partagés)
 import sys                                  # Module système (sortie standard, exit, etc.)
