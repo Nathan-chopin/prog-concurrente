@@ -1,6 +1,6 @@
-# Nathan CHOPIN et le grand et beau Maël PIERRON
+# Nathan CHOPIN et Maël PIERRON
 # main du jeu de la vie
-# 2/06/25
+# 16/06/25
 # TODO : faire le jeu de la vie
 
 import multiprocessing as mp

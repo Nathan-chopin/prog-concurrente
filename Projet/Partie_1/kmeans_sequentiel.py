@@ -1,3 +1,6 @@
+# Nathan CHOPIN et Maël PIERRON
+# 16/06/25
+# TODO : Done
 import random   # Pour générer des nombres aléatoires
 import math     # Pour utiliser la racine carrée et autres fonctions mathématiques
 import matplotlib.pyplot as plt  # Pour tracer des graphiques
