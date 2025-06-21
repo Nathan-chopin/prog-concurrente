@@ -64,6 +64,9 @@ def vie_mort(lock,x,y,etat):
                 nb_mort += est_mort(T[x+1][y+i])
             nb_mort += est_mort(T[x][y+i])
     
+    if nb_mort > 8:
+        print('erreur nombre de morts : ',nb_mort,'\nPour la case :',x,' x et ',y,' y\n')
+    
     nb_vivant = 8 - nb_mort
     if etat == mort and nb_vivant == 3:
         with lock:
