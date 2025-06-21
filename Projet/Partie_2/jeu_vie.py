@@ -23,6 +23,7 @@ T = creation_tableau(N)
 
 def affichage():
     '''permet d'afficher le plateau '''
+    print("\033[H\033[J", end='')
     ligne = ''
     for i in T:
         for k in i:
