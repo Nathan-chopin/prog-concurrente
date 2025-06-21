@@ -67,8 +67,7 @@ def afficher_resultats(X: np.ndarray, centres: np.ndarray, clusters: List[int], 
     plt.show()  # Affiche tout ça à l’écran
 
 if __name__ == "__main__":
-    np.random.seed(42)  # Fixe la graine aléatoire pour reproduire les résultats
-    X = np.random.rand(200, 2) * 100  # Génère 200 points aléatoires dans un carré 100x100
-    k = 4  # Nombre de clusters voulu
+    X = np.random.rand(1000, 2) * 100  # Génère 200 points aléatoires dans un carré 100x100
+    k = 10  # Nombre de clusters voulu
     centres, clusters = main(X, k)  # Lance le k-means parallèle
     afficher_resultats(X, centres, clusters, k)  # Affiche le résultat
