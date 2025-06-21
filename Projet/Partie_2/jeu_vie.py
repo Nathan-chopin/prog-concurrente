@@ -30,6 +30,7 @@ def affichage():
             ligne += k + ' '
         print(ligne)
         ligne = ''
+    print('\n')
 
 def init_aleatoire():
     for i in range(len(T)):
