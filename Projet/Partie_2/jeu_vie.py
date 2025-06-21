@@ -19,7 +19,9 @@ def creation_tableau(N):
             T[i].append(mort)
     return T
 
-T = creation_tableau(N)
+#T = creation_tableau(N)
+manager = mp.Manager()
+T = manager.list([manager.list([mort for i in range(N)]) for j in range(N)])
 
 def affichage():
     '''permet d'afficher le plateau '''
@@ -38,7 +40,7 @@ def init_aleatoire():
             if randint(0,8) == 1:
                 T[i][k] = vivant
 
-def vie_mort(lock,x,y,etat):
+def vie_mort(lock,x,y,etat,T):
     '''détermine la vie ou la mort d'une cellule'''
     bord_x0  = x == 0
     bord_x14 = x == len(T) - 1
@@ -56,29 +58,21 @@ def vie_mort(lock,x,y,etat):
             '''la cellule est morte ?'''
             return int(etat == mort)
 
-        def est_vivant(etat):
-            '''la cellule est vivante ?'''
-            return int(etat == vivant)   
+    def distinction_cas():
+        '''retourne une liste [1,-1] si la case n'est pas au bord et 0 dans le cas où elle y est'''
+        return [int( not bord_y14 ),-1 * int( not bord_y0 )]
 
-        def distinction_cas():
-            '''retourne une liste [1,-1] si la case n'est pas au bord et 0 dans le cas où elle y est'''
-            return [int( not bord_y14 ),-1 * int( not bord_y0 )]
-        
-        # compte le nombre de cellules mortes quand on n'est pas aux bords
-        for i in distinction_cas():
-            if i != 0:
-                if not bord_x0:
-                    nb_mort += est_mort(T[x-1][y+i])
-                    nb_vivant += est_vivant(T[x-1][y+i])
-                if not bord_x14:
-                    nb_mort += est_mort(T[x+1][y+i])
-                    nb_vivant += est_vivant(T[x+1][y+i])
-                nb_mort += est_mort(T[x][y+i])
-                nb_vivant += est_vivant(T[x][y+i])
-        
-        if nb_mort > 8:
-            print('\nerreur nombre de morts : ',nb_mort,' nombre vivant : ',nb_vivant,'\nPour la case :',x,' x et ',y,' y\n')
-        return nb_mort,nb_vivant
+    # compte le nombre de cellules mortes quand on n'est pas aux bords
+    for i in distinction_cas():
+        if i != 0:
+            if not bord_x0:
+                nb_mort += est_mort(T[x-1][y+i])
+            if not bord_x14:
+                nb_mort += est_mort(T[x+1][y+i])
+            nb_mort += est_mort(T[x][y+i])
+    
+    if nb_mort > 8:
+        print('erreur nombre de morts : ',nb_mort,'\nPour la case :',x,' x et ',y,' y\n')
     
     nb_mort,nb_vivant = compte()
     nb_vivant = 3
@@ -96,7 +90,7 @@ def crea_proc():
     mes_process = []                          # Liste des processus
     for x in range(N):
         for y in range(N):
-            p = mp.Process(target=vie_mort, args=(lock,x,y,T[x][y]))  # Crée le processus
+            p = mp.Process(target=vie_mort, args=(lock,x,y,T[x][y],T))  # Crée le processus
             p.start()                             # Lance le processus
             mes_process.append(p)
     for p in mes_process:
