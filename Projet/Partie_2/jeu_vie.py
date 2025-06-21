@@ -50,19 +50,23 @@ def vie_mort(lock,x,y,etat):
 
     def est_mort(etat):
         '''la cellule est morte ?'''
-        if etat == mort:
-            return 1
-        else:
-            return 0
+        return int(etat == mort)
+
+    def distinction_cas():
+        '''retourne une liste [1,-1] si la case n'est pas au bord et 0 dans le cas où elle y est'''
+        return [int( not bord_y14 ),-1 * int( not bord_y0 )]
 
     # compte le nombre de cellules mortes quand on n'est pas aux bords
-    for i in [int( not bord_y14 ),-1 * int( not bord_y0 )]:
+    for i in distinction_cas():
         if i != 0:
             if not bord_x0:
                 nb_mort += est_mort(T[x-1][y+i])
             if not bord_x14:
                 nb_mort += est_mort(T[x+1][y+i])
             nb_mort += est_mort(T[x][y+i])
+    
+    if nb_mort > 8:
+        print('erreur nombre de morts : ',nb_mort,'\nPour la case :',x,' x et ',y,' y\n')
     
     nb_vivant = 8 - nb_mort
     if etat == mort and nb_vivant == 3:
