@@ -37,21 +37,31 @@ def init_aleatoire():
                 T[i][k] = vivant
 
 def vie_mort(lock,x,y,etat):
+    '''détermine la vie ou la mort d'une cellule'''
     bord_x0  = x == 0
-    bord_x14 = x == len(T)
+    bord_x14 = x == len(T) - 1
     bord_y0  = y == 0
-    bord_y14 = y == len(T)
+    bord_y14 = y == len(T) - 1
 
+    # compte le nombre de cellules mortes aux bords x et y
     nb_mort =  3 * int(bord_x0)  + (3 * int(bord_y0) - int(bord_y0 and bord_x0 )) + (3 * int(bord_y14) - int(bord_y14 and bord_x0 ))
     nb_mort += 3 * int(bord_x14) + (3 * int(bord_y0) - int(bord_y0 and bord_x14)) + (3 * int(bord_y14) - int(bord_y14 and bord_x14))
-    
-    for i in [int(not bord_y0),-1 * int(not bord_y14)]:
+
+    def est_mort(etat):
+        '''la cellule est morte ?'''
+        if etat == mort:
+            return 1
+        else:
+            return 0
+
+    # compte le nombre de cellules mortes quand on n'est pas aux bords
+    for i in [int( not bord_y14 ),-1 * int( not bord_y0 )]:
         if i != 0:
             if not bord_x0:
-                nb_mort += int(T[x-1][y+i] == mort)
+                nb_mort += est_mort(T[x-1][y+i])
             if not bord_x14:
-                nb_mort += int(T[x+1][y+i] == mort)
-            nb_mort += int(T[x][y+i] == mort)
+                nb_mort += est_mort(T[x+1][y+i])
+            nb_mort += est_mort(T[x][y+i])
     
     nb_vivant = 8 - nb_mort
     if etat == mort and nb_vivant == 3:
@@ -61,9 +71,6 @@ def vie_mort(lock,x,y,etat):
     if etat == vivant and (nb_vivant < 2 or nb_vivant > 3):
         with lock:
             T[x][y] = mort
-
-    if etat == mort:
-        return
 
 def crea_proc():
     mes_process = []                          # Liste des processus chevaux
@@ -81,5 +88,6 @@ if __name__ == '__main__' :
     affichage()
     
     while True:
-        time.sleep(1)
+        time.sleep(3)
         crea_proc()
+        affichage()
