@@ -78,16 +78,16 @@ def vie_mort(lock,x,y,etat,T):
         for i in distinction_cas():
             if i != 0:
                 if not bord_x0:
-                    cellule_proche = T[x-1][y+i] # colonne de gauche
-                    nb_mort += est_mort(cellule_proche)
-                    nb_vivant += est_vivant(cellule_proche)
+                    cellules_proches = T[x-1][y+i] # colonne de gauche
+                    nb_mort += est_mort(cellules_proches)
+                    nb_vivant += est_vivant(cellules_proches)
                 if not bord_x14:
-                    cellule_proche = T[x+1][y+i] # colonne de droite
-                    nb_mort += est_mort(cellule_proche)
-                    nb_vivant += est_vivant(cellule_proche)
-                cellule_proche = T[x][y+i] # colonne du centre
-                nb_mort += est_mort(cellule_proche)
-                nb_vivant += est_vivant(cellule_proche)
+                    cellules_proches = T[x+1][y+i] # colonne de droite
+                    nb_mort += est_mort(cellules_proches)
+                    nb_vivant += est_vivant(cellules_proches)
+                cellules_proches = T[x][y+i] # colonne du centre
+                nb_mort += est_mort(cellules_proches)
+                nb_vivant += est_vivant(cellules_proches)
             
         if nb_mort > 8:
             print('erreur nombre de morts : ',nb_mort,' nombre vivant : ',nb_vivant,'\nPour la case :',x,' x et ',y,' y\n')
