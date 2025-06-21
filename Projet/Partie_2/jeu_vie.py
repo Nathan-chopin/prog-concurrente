@@ -22,7 +22,7 @@ def creation_tableau(N):
 T = creation_tableau(N)
 
 def affichage():
-    '''permet d'afficher le plateau'''
+    '''permet d'afficher le plateau '''
     ligne = ''
     for i in T:
         for k in i:
