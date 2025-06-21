@@ -81,18 +81,19 @@ def vie_mort(lock,x,y,etat):
         return nb_mort,nb_vivant
     
     nb_mort,nb_vivant = compte()
+    nb_vivant = 3
 
     #nb_vivant = 8 - nb_mort
     if etat == mort and nb_vivant == 3:
         with lock:
-            T[x][y] = vivant
+            etat = vivant # etat <=> T[x][y]
     
     if etat == vivant and (nb_vivant < 2 or nb_vivant > 3):
         with lock:
-            T[x][y] = mort
+            etat = mort
 
 def crea_proc():
-    mes_process = []                          # Liste des processus chevaux
+    mes_process = []                          # Liste des processus
     for x in range(N):
         for y in range(N):
             p = mp.Process(target=vie_mort, args=(lock,x,y,T[x][y]))  # Crée le processus
