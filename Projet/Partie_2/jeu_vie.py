@@ -32,6 +32,7 @@ def affichage():
             ligne += k + ' '
         print(ligne)
         ligne = ''
+    print('\n')
 
 def init_aleatoire():
     for i in range(len(T)):
@@ -46,13 +47,16 @@ def vie_mort(lock,x,y,etat,T):
     bord_y0  = y == 0
     bord_y14 = y == len(T) - 1
 
-    # compte le nombre de cellules mortes aux bords x et y
-    nb_mort =  3 * int(bord_x0)  + (3 * int(bord_y0) - int(bord_y0 and bord_x0 )) + (3 * int(bord_y14) - int(bord_y14 and bord_x0 ))
-    nb_mort += 3 * int(bord_x14) + (3 * int(bord_y0) - int(bord_y0 and bord_x14)) + (3 * int(bord_y14) - int(bord_y14 and bord_x14))
+    def compte():
+        '''compte le nombre de cellules mortes aux bords x et y'''
+        nb_mort =  3 * int(bord_x0)  + (3 * int(bord_y0) - int(bord_y0 and bord_x0 )) + (3 * int(bord_y14) - int(bord_y14 and bord_x0 ))
+        nb_mort += 3 * int(bord_x14) + (3 * int(bord_y0) - int(bord_y0 and bord_x14)) + (3 * int(bord_y14) - int(bord_y14 and bord_x14))
 
-    def est_mort(etat):
-        '''la cellule est morte ?'''
-        return int(etat == mort)
+        nb_vivant = 0
+
+        def est_mort(etat):
+            '''la cellule est morte ?'''
+            return int(etat == mort)
 
     def distinction_cas():
         '''retourne une liste [1,-1] si la case n'est pas au bord et 0 dans le cas où elle y est'''
@@ -67,10 +71,12 @@ def vie_mort(lock,x,y,etat,T):
                 nb_mort += est_mort(T[x+1][y+i])
             nb_mort += est_mort(T[x][y+i])
     
-    #if nb_mort > 8:
-        #print('erreur nombre de morts : ',nb_mort,'\nPour la case :',x,' x et ',y,' y\n')
+    if nb_mort > 8:
+        print('erreur nombre de morts : ',nb_mort,'\nPour la case :',x,' x et ',y,' y\n')
     
-    nb_vivant = 8 - nb_mort
+    nb_mort,nb_vivant = compte()
+
+    #nb_vivant = 8 - nb_mort
     if etat == mort and nb_vivant == 3:
         with lock:
             T[x][y] = vivant
