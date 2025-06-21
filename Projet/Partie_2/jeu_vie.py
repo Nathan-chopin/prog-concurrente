@@ -19,9 +19,17 @@ def creation_tableau(N):
             T[i].append(mort)
     return T
 
+def creation_tableau_bis(N):
+    manager = mp.Manager()
+    T = manager.list()
+    for i in range(N):
+        T.append(manager.list())
+        for _ in range(N):
+            T[i].append(mort)
+    return T
+
 #T = creation_tableau(N)
-manager = mp.Manager()
-T = manager.list([manager.list([mort for i in range(N)]) for j in range(N)])
+T = creation_tableau_bis(N)
 
 def affichage():
     '''permet d'afficher le plateau '''
@@ -58,21 +66,29 @@ def vie_mort(lock,x,y,etat,T):
             '''la cellule est morte ?'''
             return int(etat == mort)
 
-    def distinction_cas():
-        '''retourne une liste [1,-1] si la case n'est pas au bord et 0 dans le cas où elle y est'''
-        return [int( not bord_y14 ),-1 * int( not bord_y0 )]
+        def est_vivant(etat):
+            '''la cellule est vivante ?'''
+            return int(etat == vivant)   
 
-    # compte le nombre de cellules mortes quand on n'est pas aux bords
-    for i in distinction_cas():
-        if i != 0:
-            if not bord_x0:
-                nb_mort += est_mort(T[x-1][y+i])
-            if not bord_x14:
-                nb_mort += est_mort(T[x+1][y+i])
-            nb_mort += est_mort(T[x][y+i])
+        def distinction_cas():
+            '''retourne une liste [1,-1] si la case n'est pas au bord et 0 dans le cas où elle y est'''
+            return [int( not bord_y14 ),-1 * int( not bord_y0 )]
     
-    if nb_mort > 8:
-        print('erreur nombre de morts : ',nb_mort,'\nPour la case :',x,' x et ',y,' y\n')
+        # compte le nombre de cellules mortes quand on n'est pas aux bords
+        for i in distinction_cas():
+            if i != 0:
+                if not bord_x0:
+                    nb_mort += est_mort(T[x-1][y+i])
+                    nb_vivant += est_vivant(T[x-1][y+i])
+                if not bord_x14:
+                    nb_mort += est_mort(T[x+1][y+i])
+                    nb_vivant += est_vivant(T[x+1][y+i])
+                nb_mort += est_mort(T[x][y+i])
+                nb_vivant += est_vivant(T[x][y+i])
+            
+        if nb_mort > 8:
+            print('erreur nombre de morts : ',nb_mort,' nombre vivant : ',nb_vivant,'\nPour la case :',x,' x et ',y,' y\n')
+        return nb_mort,nb_vivant
     
     nb_mort,nb_vivant = compte()
     nb_vivant = 3
